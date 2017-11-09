@@ -17,9 +17,7 @@ public class HttpClientProperties {
 
     private String baseUrl;
 
-    private Credentials credentials;
     private Map<String, Group> groups;
-
 
     public Group getGroupByName(String name) {
         return groups.get(name);
