@@ -2,9 +2,10 @@ package com.money.transfer.http.client;
 
 
 import com.money.transfer.http.client.properties.Group;
-import com.money.transfer.http.client.response.impl.GetAgentDetailsResponse;
-import com.money.transfer.http.client.response.impl.GetSourceCountriesResponse;
+import com.money.transfer.http.client.properties.HttpClientProperties;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -13,23 +14,19 @@ import java.util.Map;
 
 public abstract class BaseHttpClient {
 
-    public abstract GetAgentDetailsResponse getAgentDetails();
+    @Autowired
+    RestTemplate restTemplate;
 
-    public abstract GetSourceCountriesResponse getSourceCountries();
-
-    abstract String getBaseUrl();
-
-    abstract Group getGroup(String name);
-
-    abstract String getProtocol();
+    @Autowired
+    HttpClientProperties properties;
 
     @SneakyThrows
     URI buildUri(String groupName, String methodName) {
-        Group group = getGroup(groupName);
+        Group group = properties.getGroupByName(groupName);
         Map<String, String> methods = group.getMethods();
         UriComponents uriComponents = UriComponentsBuilder.newInstance()
-                .scheme(getProtocol())
-                .host(getBaseUrl())
+                .scheme(properties.getProtocol())
+                .host(properties.getBaseUri())
                 .pathSegment(group.getName(), methods.get(methodName))
                 .build();
         return uriComponents.toUri();

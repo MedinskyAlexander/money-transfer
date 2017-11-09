@@ -1,6 +1,7 @@
 package com.money.transfer;
 
-import com.money.transfer.http.client.BaseHttpClient;
+import com.money.transfer.http.client.AdminRemitOneHttpClient;
+import com.money.transfer.http.client.AgentRemitOneHttpClient;
 import com.money.transfer.http.client.response.impl.GetAgentDetailsResponse;
 import com.money.transfer.http.client.response.impl.GetSourceCountriesResponse;
 import org.junit.Test;
@@ -16,18 +17,21 @@ import static org.junit.Assert.assertNotNull;
 public class RemitOneBaseHttpClientTests {
 
     @Autowired
-    private BaseHttpClient baseHttpClient;
+    private AdminRemitOneHttpClient adminRemitOneHttpClient;
+
+    @Autowired
+    private AgentRemitOneHttpClient agentRemitOneHttpClient;
 
 
 	@Test
     public void agentDataResponseIsNoEmptyTest() {
-        GetAgentDetailsResponse response = baseHttpClient.getAgentDetails();
+        GetAgentDetailsResponse response = agentRemitOneHttpClient.getAgentDetails();
         assertNotNull(response);
     }
 
     @Test
     public void adminSourceCountriesResponseIsNoEmptyTest() {
-        GetSourceCountriesResponse response = baseHttpClient.getSourceCountries();
+        GetSourceCountriesResponse response = adminRemitOneHttpClient.getSourceCountries();
         assertNotNull(response);
     }
 
