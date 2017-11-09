@@ -1,6 +1,6 @@
 package com.money.transfer;
 
-import com.money.transfer.http.client.HttpClient;
+import com.money.transfer.http.client.BaseHttpClient;
 import com.money.transfer.http.client.response.impl.GetAgentDetailsResponse;
 import com.money.transfer.http.client.response.impl.GetSourceCountriesResponse;
 import org.junit.Test;
@@ -13,21 +13,21 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RemitOneHttpClientTests {
+public class RemitOneBaseHttpClientTests {
 
     @Autowired
-    private HttpClient httpClient;
+    private BaseHttpClient baseHttpClient;
 
 
 	@Test
     public void agentDataResponseIsNoEmptyTest() {
-        GetAgentDetailsResponse response = httpClient.getAgentDetails();
+        GetAgentDetailsResponse response = baseHttpClient.getAgentDetails();
         assertNotNull(response);
     }
 
     @Test
     public void adminSourceCountriesResponseIsNoEmptyTest() {
-        GetSourceCountriesResponse response = httpClient.getSourceCountries();
+        GetSourceCountriesResponse response = baseHttpClient.getSourceCountries();
         assertNotNull(response);
     }
 

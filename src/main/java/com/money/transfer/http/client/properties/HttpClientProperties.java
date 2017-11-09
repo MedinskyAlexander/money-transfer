@@ -15,7 +15,8 @@ import java.util.Map;
 @ToString
 public class HttpClientProperties {
 
-    private String baseUrl;
+    private String protocol;
+    private String baseUri;
 
     private Map<String, Group> groups;
 

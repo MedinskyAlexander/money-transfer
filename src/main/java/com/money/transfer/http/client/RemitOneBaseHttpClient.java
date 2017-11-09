@@ -14,9 +14,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URI;
+
 
 @Component
-public class RemitOneHttpClient extends HttpClient {
+public class RemitOneBaseHttpClient extends BaseHttpClient {
 
     @Autowired
     private RestTemplate restTemplate;
@@ -26,7 +28,7 @@ public class RemitOneHttpClient extends HttpClient {
 
 
     public GetAgentDetailsResponse getAgentDetails() {
-        String url = buildUrl("agent", "get-details");
+        URI uri = buildUri("agent", "get-details");
         Credentials credentials = properties.getGroupByName("agent").getCredentials();
 
         HttpHeaders headers = new HttpHeaders();
@@ -38,12 +40,12 @@ public class RemitOneHttpClient extends HttpClient {
         params.add("pin", credentials.getPin());
 
         HttpEntity request = new HttpEntity<>(params, headers);
-        return restTemplate.postForObject(url, request, GetAgentDetailsResponse.class);
+        return restTemplate.postForObject(uri, request, GetAgentDetailsResponse.class);
     }
 
     @Override
     public GetSourceCountriesResponse getSourceCountries() {
-        String url = buildUrl("admin", "get-source-countries");
+        URI uri = buildUri("admin", "get-source-countries");
         Credentials credentials = properties.getGroupByName("admin").getCredentials();
 
         HttpHeaders headers = new HttpHeaders();
@@ -55,17 +57,22 @@ public class RemitOneHttpClient extends HttpClient {
         params.add("pin", credentials.getPin());
 
         HttpEntity request = new HttpEntity<>(params, headers);
-        return restTemplate.postForObject(url, request, GetSourceCountriesResponse.class);
+        return restTemplate.postForObject(uri, request, GetSourceCountriesResponse.class);
     }
 
     @Override
     String getBaseUrl() {
-        return properties.getBaseUrl();
+        return properties.getBaseUri();
     }
 
     @Override
     Group getGroup(String name) {
         return properties.getGroupByName(name);
+    }
+
+    @Override
+    String getProtocol() {
+        return properties.getProtocol();
     }
 
 }
